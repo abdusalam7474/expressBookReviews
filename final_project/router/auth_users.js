@@ -4,9 +4,19 @@ let books = require("./booksdb.js");
 const regd_users = express.Router();
 
 let users = [];
+let profiles = [
+    {"username":"saheed", "password":"123456"},
+];
 
 const isValid = (username)=>{ //returns boolean
-//write code to check is the username is valid
+    //write code to check if the username is valid
+    for(let keys in profiles){
+        if(profiles[keys].username==username){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
 
 const authenticatedUser = (username,password)=>{ //returns boolean
@@ -28,3 +38,4 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
+module.exports.profiles = profiles;
