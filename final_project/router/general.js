@@ -2,12 +2,28 @@ const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+let profiles = require("./auth_users.js").profiles;
 const public_users = express.Router();
 
 
 public_users.post("/register", (req,res) => {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let regDetail = req.body;
+  console.log(regDetail);
+  if(regDetail){
+    let username = regDetail.username;
+    let password = regDetail.password;
+    let usernameVal = isValid(username);
+    if(usernameVal){
+        profiles.push({"username":username, "password":password});
+        console.log(profiles);
+        return res.status(200).send("User registration successful");
+     }else{
+        return res.status(300).json({message: " the username you supplied is not valid."});
+    }
+  }else{
+    return res.status(300).json({message: "please supply username and password for registration"});
+  }
 });
 
 // Get the book list available in the shop
