@@ -29,65 +29,101 @@ public_users.post("/register", (req,res) => {
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   //Write your code here
-  //book 1: 
-  return res.status(300).json({message: books});
-});
+  new Promise((resolve, reject)=>{
+        try {
+            resolve(books);
+        }catch(err){
+            reject(err);
+        }
+  }).then((bookList)=>{
+        return res.status(300).json({message: bookList});
+  }).catch((err)=>{
+        return res.status(300).json({message: err})
+  })
+})
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
-  let query = req.params.isbn;
-  console.log(query);
-  if(query){
-    for(let firstKeys in books){
-        console.log(books[firstKeys].ISBN);
-        if(books[firstKeys].ISBN==query){
-            return res.status(200).json({"message":books[firstKeys]})
+  new Promise((resolve, reject)=>{
+    try{ 
+        let query = req.params.isbn;
+        console.log(query);
+        if(query){
+            for(let firstKeys in books){
+                console.log(books[firstKeys].ISBN);
+                if(books[firstKeys].ISBN==query){
+                    resolve(books[firstKeys]); //bookDetails
+                }
+            }
+            reject("sorry we do not have a book with that ISBN number"); //err
+        }else{
+            reject("Please supply a valid ISBN number "); //err
         }
+    }catch(err){
+        reject(err);
     }
-    return res.status(400).json({message: "sorry we do not have a book with that ISBN number"});
-
-   }else{
-      return res.status(400).json({message: " please supply a valid ISBN number "});
-   }
- });
+  }).then((bookDetails)=>{
+        return res.status(200).json({"message":bookDetails});
+  }).catch((err)=>{
+    return res.status(400).json({message: err});
+  })
+});
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-  //Write your code here
-  let query = req.params.author;
-  console.log(query);
-  if(query){
-    for(let firstKeys in books){
-        console.log(books[firstKeys].author);
-        if(books[firstKeys].author==query){
-            return res.status(200).json({"message":books[firstKeys]})
-        }
-    }
-    return res.status(400).json({message: "sorry we do not have a book with that Author name"});
-
-   }else{
-      return res.status(400).json({message: " please supply a valid author name "});
-   }
-});
-
-// Get all books based on title
+    //Write your code here
+    new Promise((resolve, reject)=>{
+      try{ 
+          let query = req.params.author;
+          console.log(query);
+          if(query){
+              for(let firstKeys in books){
+                  console.log(books[firstKeys].author);
+                  if(books[firstKeys].author==query){
+                      resolve(books[firstKeys]); //bookDetails
+                  }
+              }
+              reject("sorry we do not have a book with that Author name"); //err
+          }else{
+              reject("Please supply a valid Author name"); //err
+          }
+      }catch(err){
+          reject(err);
+      }
+    }).then((bookDetails)=>{
+          return res.status(200).json({"message":bookDetails});
+    }).catch((err)=>{
+      return res.status(400).json({message: err});
+    })
+  });
+  
+// Get book details based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  let query = req.params.title;
-  console.log(query);
-  if(query){
-    for(let firstKeys in books){
-        console.log(books[firstKeys].title);
-        if(books[firstKeys].title==query){
-            return res.status(200).json({"message":books[firstKeys]})
-        }
-    }
-    return res.status(400).json({message: "sorry we do not have a book with that title"});
-
-   }else{
-      return res.status(400).json({message: " please supply a valid title "});
-   }
+    //Write your code here
+    new Promise((resolve, reject)=>{
+      try{ 
+          let query = req.params.title;
+          console.log(query);
+          if(query){
+              for(let firstKeys in books){
+                  console.log(books[firstKeys].title);
+                  if(books[firstKeys].title==query){
+                      resolve(books[firstKeys]); //bookDetails
+                  }
+              }
+              reject("sorry we do not have a book with that title"); //err
+          }else{
+              reject("Please supply a valid Book title"); //err
+          }
+      }catch(err){
+          reject(err);
+      }
+    }).then((bookDetails)=>{
+          return res.status(200).json({"message":bookDetails});
+    }).catch((err)=>{
+      return res.status(400).json({message: err});
+    })
 });
 
 //  Get book review
