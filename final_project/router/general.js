@@ -19,7 +19,7 @@ public_users.post("/register", (req,res) => {
         console.log(profiles);
         return res.status(200).send("User registration successful");
      }else{
-        return res.status(300).json({message: " the username you supplied is not valid."});
+        return res.status(300).json({message: " the username you supplied is not valid as it already exist ."});
     }
   }else{
     return res.status(300).json({message: "please supply username and password for registration"});
